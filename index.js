@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
-// const env = require('./.env')
+require('dotenv').config();
 
 const app = express();
 app.use('/uploads', express.static('uploads')); 
@@ -10,7 +10,7 @@ app.use('/uploads', express.static('uploads'));
 
 
 
-mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Connected to MongoDB'))
     .catch((error) => console.error('Error connecting to MongoDB:', error.message));
 

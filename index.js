@@ -16,13 +16,12 @@ mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopol
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false })) 
-app.use(cors()); 
-
+app.use(cors())
 const userRoutes = require("./routes/account");  
 const sellerRoutes = require("./routes/seller");
 // const productSearchRoutes = require("./routes/product-search");
 
-// app.use("/", mainRoutes)
+// app.use("/", mainRoutes
 
 app.use("/accounts", userRoutes);
 app.use('/main', sellerRoutes )

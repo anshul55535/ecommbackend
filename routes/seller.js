@@ -291,11 +291,11 @@ router.get("/products/:id", async (req, res) => {
 router.post("/editproducts/:id", [checkJWT, upload.single("image")], (req, res, next) => {
 
 
-
+console.log(req.body)
   if (req.decoded.user.isSeller) {
     Product.findByIdAndUpdate(req.params.id, {
       owner: req.decoded.user._id,
-      category: req.body.categoryId,
+      category: req.body.category,
       title: req.body.title,
       price: req.body.price,
       quantity: req.body.quantity,
@@ -303,6 +303,7 @@ router.post("/editproducts/:id", [checkJWT, upload.single("image")], (req, res, 
       image: req.file.filename,
     })
       .then(() => {
+      
         res.json({
           success: true,
           message: "Successfully updated the product",

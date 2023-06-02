@@ -291,7 +291,6 @@ router.get("/products/:id", async (req, res) => {
 router.post("/editproducts/:id", [checkJWT, upload.single("image")], (req, res, next) => {
 
 
-console.log(req.body)
   if (req.decoded.user.isSeller) {
     Product.findByIdAndUpdate(req.params.id, {
       owner: req.decoded.user._id,

@@ -5,6 +5,7 @@ const cors = require("cors");
 require('dotenv').config();
 
 const app = express();
+app.use(cors()); // Enable CORS for all routes
 app.use('/uploads', express.static('uploads')); 
 
 
@@ -16,7 +17,6 @@ mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopol
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false })) 
-app.use(cors())
 const userRoutes = require("./routes/account");  
 const sellerRoutes = require("./routes/seller");
 // const productSearchRoutes = require("./routes/product-search");

@@ -15,18 +15,20 @@ const checkJWT = require('../JWT/jwt');
 const Review = require("../models/review");
 
 
-
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/');
+    const uploadPath = "uploads/";
+    if (!fs.existsSync(uploadPath)) {
+      fs.mkdirSync(uploadPath);
+    }
+    cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + '_' + file.originalname);
-  }
+    cb(null, Date.now() + "_" + file.originalname);
+  },
 });
 
 const upload = multer({ storage });
-
 router.get("/search/:text", async (req, res, next) => {
   try {
     const regex = new RegExp(req.params.text, "i");

@@ -213,7 +213,7 @@ router.get("/sellerproducts", checkJWT, async (req, res, next) => {
 
 
 
-router.get("/categories", checkJWT, async (req, res,) => {
+router.get("/categories", async (req, res,) => {
   const category = await Category.find()
   if (category) {
     res.json({

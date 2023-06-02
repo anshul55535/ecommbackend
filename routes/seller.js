@@ -290,7 +290,7 @@ router.get("/products/:id", async (req, res) => {
 
 
 
-router.post("/editproducts/:id", [checkJWT, upload.single("image")], (req, res, next) => {
+router.put("/editproducts/:id", [checkJWT, upload.single("image")], (req, res, next) => {
 
 
   if (req.decoded.user.isSeller) {

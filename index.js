@@ -5,7 +5,11 @@ const cors = require("cors");
 require('dotenv').config();
 
 const app = express();
-app.use(cors()); // Enable CORS for all routes
+
+
+app.use(cors({
+  origin: 'https://resonant-parfait-a68b35.netlify.app' // Allow requests from this origin
+}));
 app.use('/uploads', express.static('uploads')); 
 
 

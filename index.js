@@ -5,8 +5,9 @@ const cors = require("cors");
 require('dotenv').config();
 
 const app = express();
-app.use(cors()); // Enable CORS for all routes
-app.use('/uploads', express.static('uploads')); 
+app.use(cors({
+  origin: 'http://localhost:4200' // Allow requests from this origin
+}));app.use('/uploads', express.static('uploads')); 
 
 
 

@@ -2,6 +2,10 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
+
+const PORT = process.env.PORT || 3000
+
+
 require('dotenv').config();
 
 const app = express();
@@ -27,7 +31,6 @@ app.use("/accounts", userRoutes);
 app.use('/main', sellerRoutes )
 
 // app.use("/search", productSearchRoutes);
-
-app.listen(3000, (err) => {
-  console.log("Server sterted....................  " + 3000);
-});
+app.listen(PORT,()=>{
+  console.log(`Server start at port no ${PORT}`)
+})

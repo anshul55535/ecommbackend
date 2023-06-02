@@ -14,21 +14,17 @@ const multer = require("multer");
 const checkJWT = require('../JWT/jwt');
 const Review = require("../models/review");
 
-
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadPath = "uploads/";
-    if (!fs.existsSync(uploadPath)) {
-      fs.mkdirSync(uploadPath);
-    }
-    cb(null, uploadPath);
+    cb(null, "uploads/");
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now + "_" + file.originalname);
+    cb(null, Date.now() + "_" + file.originalname);
   },
 });
 
 const upload = multer({ storage });
+
 router.get("/search/:text", async (req, res, next) => {
   try {
     const regex = new RegExp(req.params.text, "i");
@@ -289,10 +285,7 @@ router.get("/products/:id", async (req, res) => {
 
 
 
-
 router.put("/editproducts/:id", [checkJWT, upload.single("image")], (req, res, next) => {
-
-
   if (req.decoded.user.isSeller) {
     Product.findByIdAndUpdate(req.params.id, {
       owner: req.decoded.user._id,
@@ -304,7 +297,21 @@ router.put("/editproducts/:id", [checkJWT, upload.single("image")], (req, res, n
       image: req.file.filename,
     })
       .then(() => {
-      
+        // Find the updated product and save changes
+        return Product.findById(req.params.id);
+      })
+      .then((product) => {
+        product.owner = req.decoded.user._id;
+        product.category = req.body.category;
+        product.title = req.body.title;
+        product.price = req.body.price;
+        product.quantity = req.body.quantity;
+        product.description = req.body.description;
+        product.image = req.file.filename;
+
+        return product.save();
+      })
+      .then(() => {
         res.json({
           success: true,
           message: "Successfully updated the product",
@@ -317,19 +324,14 @@ router.put("/editproducts/:id", [checkJWT, upload.single("image")], (req, res, n
           error: error.message,
         });
       });
-
   } else {
     res.json({
       success: false,
-      message: "You are Not Authorized",
-      error: error.message,
+      message: "You are not authorized",
     });
   }
+});
 
-}
-
-
-)
 
 
 router.post('/reviews', checkJWT, async (req, res) => {
